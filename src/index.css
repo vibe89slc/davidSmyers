@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+@theme {
+  /* Warm light — paper + ink, cover-inspired accent (readable contrast) */
+  --color-ds-bg: #f6f0e8;
+  --color-ds-surface: #fbf7f1;
+  --color-ds-elevated: #ffffff;
+  --color-ds-border: #ddd4c8;
+  --color-ds-text: #1c1916;
+  --color-ds-muted: #4f4840;
+  --color-ds-accent: #b24a1a;
+  --color-ds-accent-hover: #9a3f15;
+  --color-ds-gold: #6b5a3e;
+  --color-ds-jade: #1f5c4a;
+  --color-ds-ink: #0f0d0b;
+  --color-ds-coral: #c85d2a;
+
+  --font-sans: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", ui-serif, Georgia, "Times New Roman", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Consolas, monospace;
+}
+
+@utility font-mono {
+  font-family: var(--font-mono);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    @apply bg-ds-bg text-ds-text font-sans text-base font-normal antialiased;
+    font-size: 1.0625rem; /* 17px at default — meets ≥16px */
+    line-height: 1.6;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-ds-jade outline-offset-2;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Warm top glow + light grain; keeps pages from feeling like flat copy paper */
+  .ds-page-texture {
+    background-color: var(--color-ds-bg);
+    background-image:
+      radial-gradient(100% 60% at 15% 0%, rgba(200, 93, 42, 0.09) 0%, transparent 45%),
+      radial-gradient(80% 50% at 100% 20%, rgba(31, 92, 74, 0.06) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+  }
+
+  /* Intro: biography blurb; reads as pen on ruled paper, not a typewriter */
+  .intro-handwriting {
+    font-family: "Caveat", cursive;
+    font-weight: 500;
+    padding-left: max(0.4rem, 3.5%);
+    transform: rotate(-0.2deg);
+  }
+
+  /* Main blurb: slightly smaller, tighter leading — saves vertical space on short viewports */
+  .intro-handwriting--body {
+    font-size: clamp(0.98rem, 0.2rem + 2.1vw, 1.2rem);
+    line-height: 1.4;
+  }
+
+  @media (min-width: 640px) {
+    .intro-handwriting--body {
+      font-size: clamp(1.05rem, 0.4rem + 1.1vw, 1.24rem);
+      line-height: 1.42;
+    }
+  }
+
+  /* Closing line: a step up from the body; fluid so it still fits with no scroll */
+  .intro-handwriting-coda {
+    display: block;
+    margin-top: 0.45em;
+    font-size: clamp(1.12rem, 0.32rem + 2.3vw, 1.4rem);
+    line-height: 1.32;
+    font-weight: 700;
+  }
+
+  @media (min-width: 640px) {
+    .intro-handwriting-coda {
+      font-size: clamp(1.2rem, 0.5rem + 1.1vw, 1.45rem);
+      line-height: 1.34;
+    }
+  }
+
+  .intro-coda-line {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+  }
+
+  /* Hand-drawn scribble underline (SVG); pathLength=1 so dash animates cleanly */
+  .intro-coda-scribble {
+    position: absolute;
+    left: -0.06em;
+    right: -0.06em;
+    bottom: -0.2em;
+    width: auto;
+    height: 0.62em;
+    min-height: 8px;
+    max-height: 14px;
+    pointer-events: none;
+    overflow: visible;
+    display: block;
+  }
+
+  .intro-coda-scribble path {
+    fill: none;
+    stroke: var(--color-ds-ink);
+    stroke-opacity: 0.88;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+
+  .intro-coda-scribble--drawn path {
+    animation: intro-scribble-draw 0.95s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  @keyframes intro-scribble-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .intro-coda-scribble--drawn path {
+      animation: none;
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .ds-intro-bg {
+    background-color: #e8dfd3;
+    background-image:
+      linear-gradient(0deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 40%),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+      linear-gradient(180deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+      radial-gradient(ellipse 100% 80% at 50% 0%, rgba(200, 93, 42, 0.12) 0%, transparent 55%);
+    background-size: 100% 100%, 18px 18px, 18px 18px, 100% 100%;
+  }
+}

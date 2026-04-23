@@ -1,6 +1,7 @@
 import { useRef } from "react"
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion"
 import { site } from "../content/siteContent"
+import { HeroOrnament } from "./HeroOrnament"
 
 const [first, last] = site.name.split(" ")
 
@@ -24,15 +25,16 @@ export function Hero({ onUpcomingBookInfo }: HeroProps) {
       aria-labelledby="hero-heading"
       className="relative overflow-hidden border-b border-ds-border/60"
     >
+      <HeroOrnament />
       <div
-        className="pointer-events-none absolute inset-0"
+        className="pointer-events-none absolute inset-0 z-[1]"
         style={{
           background:
             "radial-gradient(ellipse 80% 60% at 20% 10%, rgba(200, 93, 42, 0.11) 0%, transparent 50%), linear-gradient(180deg, rgba(251, 247, 241, 0) 0%, var(--color-ds-bg) 100%)",
         }}
         aria-hidden
       />
-      <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:flex-row lg:items-stretch lg:gap-12 lg:py-24">
+      <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:flex-row lg:items-stretch lg:gap-12 lg:py-24">
         <div className="min-w-0 flex-1">
           <p className="font-mono text-[0.7rem] font-medium uppercase tracking-[0.32em] text-ds-coral/90 sm:text-xs">
             The work
